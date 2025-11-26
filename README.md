@@ -1,6 +1,4 @@
-# Full Stack Open - Course Exercises
+# Full Stack HY - Kurssi
 
-## Part 3 - Backend
-
-Puhelinluettelo deploydatty osoitteeseen:
+## Puhelinluettelo - Fullstack:
 https://fullstack-hy-gwmc.onrender.com

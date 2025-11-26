@@ -113,7 +113,7 @@ const App = () => {
 
   return (
     <div>
-      <Header text="Phoenebook" />
+      <Header text="Phonebook" />
       <Notification message={message} messageType={messageType} />
       <Filter
         filter={filter}
