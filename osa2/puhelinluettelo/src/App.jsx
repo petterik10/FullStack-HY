@@ -85,10 +85,7 @@ const App = () => {
             setNewNumber("");
           })
           .catch((error) => {
-            showMessage(
-              `Information of person ${person.name} has already been removed from the server`,
-              "error"
-            );
+            showMessage(`${error.response.data.error}`, "error");
             setPersons(persons.filter((p) => p.id !== person.id));
             setNewName("");
             setNewNumber("");
@@ -96,12 +93,18 @@ const App = () => {
       }
     } else {
       const newObject = { name: newName, number: newNumber };
-      personService.create(newObject).then((response) => {
-        setPersons(persons.concat(response));
-        showMessage(`Added ${newObject.name}`, "success");
-        setNewName("");
-        setNewNumber("");
-      });
+      personService
+        .create(newObject)
+        .then((response) => {
+          setPersons(persons.concat(response));
+          showMessage(`Added ${newObject.name}`, "success");
+          setNewName("");
+          setNewNumber("");
+        })
+        .catch((error) => {
+          showMessage(`${error.response.data.error}`, "error");
+          console.log(error.response.data);
+        });
     }
   };
 
