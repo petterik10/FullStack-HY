@@ -1,11 +1,22 @@
-const Notification = ({ message, messageType }) => {
-  if (message === null) {
+import { useContext } from "react";
+import NotificationContext from "../NotificationContext";
+import { Alert } from "@mui/material";
+
+const Notification = () => {
+  const { notification } = useContext(NotificationContext);
+  
+  if (!notification || !notification.message) {
     return null;
   }
 
-  const className = messageType === "success" ? "success" : "error"
-
-  return <div className={className}>{message}</div>;
+  return (
+    <Alert 
+      severity={notification.type === "success" ? "success" : "error"}
+      sx={{ marginBottom: 2 }}
+    >
+      {notification.message}
+    </Alert>
+  );
 };
 
 export default Notification;

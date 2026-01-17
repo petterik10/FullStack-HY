@@ -1,14 +1,13 @@
 const blogsRouter = require("express").Router();
 const Blog = require("../models/blog");
-const middleware = require('../utils/middleware')
-
+const middleware = require("../utils/middleware");
 
 blogsRouter.get("/", async (request, response) => {
   const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 });
   response.json(blogs);
 });
 
-blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
+blogsRouter.post("/", middleware.userExtractor, async (request, response) => {
   const body = request.body;
   const user = request.user;
 
@@ -38,7 +37,10 @@ blogsRouter.put("/:id", async (request, response) => {
   return response.status(200).json(savedBlog);
 });
 
-blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
+blogsRouter.delete(
+  "/:id",
+  middleware.userExtractor,
+  async (request, response) => {
     const user = request.user;
 
     const blog = await Blog.findById(request.params.id);
@@ -57,5 +59,16 @@ blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) =
     response.status(204).end();
   }
 );
+
+blogsRouter.post("/:id/comments", async (request, response) => {
+  const { comment } = request.body;
+
+  let blog = await Blog.findById(request.params.id);
+  blog.comments = blog.comments.concat(comment);
+
+  const savedBlog = await blog.save();
+
+  return response.status(200).json(savedBlog);
+});
 
 module.exports = blogsRouter;
